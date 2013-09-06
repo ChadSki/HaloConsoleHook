@@ -32,7 +32,7 @@ DWORD GetProcessIdByName(const char * name)
     return NULL;
 }
 
-BOOL InjectAndRunThenUnload(DWORD ProcessId, const char * DllName, const std::string& ExportName, const wchar_t * ExportArgument)
+BOOL InjectAndRun(DWORD ProcessId, const char * DllName, const std::string& ExportName, const wchar_t * ExportArgument)
 {
     using namespace Hades;
     using namespace std;
@@ -77,12 +77,6 @@ BOOL InjectAndRunThenUnload(DWORD ProcessId, const char * DllName, const std::st
 
     // Call the function we wanted in the first place
     CallExport(ProcessId, DllName, ExportName, ExportArgument);
-
-    // Unload the dll, so we can run again if we choose
-    EnsureCloseHandle FreeThread = CreateRemoteThread(Proc, NULL, NULL,
-        (LPTHREAD_START_ROUTINE)GetProcAddress(hKernel32, "FreeLibrary"),
-        (LPVOID)hLibModule, NULL, NULL);
-    WaitForSingleObject(FreeThread, INFINITE);
 
     return true;
 }

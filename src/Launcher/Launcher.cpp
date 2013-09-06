@@ -38,7 +38,7 @@ void true_main() {
     wcscat_s(DllNameW, L"\\ExampleProject.dll");
     
     DWORD Pid = GetProcessIdByName("GoldWave.exe");
-    InjectAndRunThenUnload(Pid, DllName, "LoadManagedProject", DllNameW);
+    InjectAndRun(Pid, DllName, "LoadManagedProject", DllNameW);
 }
 
 /* By starting as a Windows application but not displaying any
