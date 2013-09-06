@@ -32,7 +32,7 @@ void true_main() {
     GetCurrentDirectoryA(MAX_PATH, DllName);
     strcat_s(DllName, "\\Bootstrapper.dll");
     
-    DWORD Pid = GetProcessIdByName("GoldWave.exe");
+    DWORD Pid = GetProcessIdByName("halo.exe");
     InjectAndRun(Pid, DllName, "InjectedMain");
 }
 
