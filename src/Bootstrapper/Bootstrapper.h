@@ -7,7 +7,4 @@
 #define DllExport extern "C" __declspec( dllexport )
 
 // Our sole export for the time being
-DllExport void LoadManagedProject(const wchar_t * managedDllLocation);
-
-// Not exporting, so go ahead and name-mangle
-ICLRRuntimeHost* StartCLR(LPCWSTR dotNetVersion);
+DllExport void InjectedMain(const wchar_t * argument);

@@ -31,19 +31,15 @@ void true_main() {
     char DllName[MAX_PATH];
     GetCurrentDirectoryA(MAX_PATH, DllName);
     strcat_s(DllName, "\\Bootstrapper.dll");
-
-    // ExampleProject
-    wchar_t DllNameW[MAX_PATH];
-    GetCurrentDirectory(MAX_PATH, DllNameW);
-    wcscat_s(DllNameW, L"\\ExampleProject.dll");
     
     DWORD Pid = GetProcessIdByName("GoldWave.exe");
-    InjectAndRun(Pid, DllName, "LoadManagedProject", DllNameW);
+    InjectAndRun(Pid, DllName, "InjectedMain");
 }
 
 /* By starting as a Windows application but not displaying any
  * windows, we can become effectively invisible.
  */
+#pragma warning(suppress: 28251) // Honeybadger don't care about SAL notation
 int __stdcall WinMain (HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPSTR lpCmdLine,

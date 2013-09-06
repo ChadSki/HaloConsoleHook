@@ -32,7 +32,7 @@ DWORD GetProcessIdByName(const char * name)
     return NULL;
 }
 
-BOOL InjectAndRun(DWORD ProcessId, const char * DllName, const std::string& ExportName, const wchar_t * ExportArgument)
+BOOL InjectAndRun(DWORD ProcessId, const char * DllName, const std::string& ExportName)
 {
     using namespace Hades;
     using namespace std;
@@ -57,8 +57,18 @@ BOOL InjectAndRun(DWORD ProcessId, const char * DllName, const std::string& Expo
     // LoadLibraryA needs a string as its argument, but it needs to be in
     // the remote Process' memory space.
     size_t StrLength = strlen(DllName);
-    LPVOID RemoteString = (LPVOID)VirtualAllocEx(Proc, NULL, StrLength,
-        MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+    if (StrLength < 1)
+    {
+        cout << "Dll name cannot be empty: " << GetLastError() << endl;
+        return false;
+    }
+
+    LPVOID RemoteString = (LPVOID)VirtualAllocEx(Proc, NULL, StrLength, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+    if (!RemoteString)
+    {
+        cout << "Dll name could not be injected: " << GetLastError() << endl;
+        return false;
+    }
     WriteProcessMemory(Proc, RemoteString, DllName, StrLength, NULL);
 
     // Start a remote thread on the targeted Process, using LoadLibraryA
@@ -73,15 +83,15 @@ BOOL InjectAndRun(DWORD ProcessId, const char * DllName, const std::string& Expo
     GetExitCodeThread(LoadThread, &hLibModule);
 
     // Clean up the remote string
-    VirtualFreeEx(Proc, RemoteString, StrLength, MEM_RELEASE);
+    VirtualFreeEx(Proc, RemoteString, 0, MEM_RELEASE);
 
     // Call the function we wanted in the first place
-    CallExport(ProcessId, DllName, ExportName, ExportArgument);
+    CallExport(ProcessId, DllName, ExportName);
 
     return true;
 }
 
-DWORD CallExport(DWORD ProcId, const std::string& ModuleName, const std::string& ExportName, const wchar_t * ExportArgument)
+DWORD CallExport(DWORD ProcId, const std::string& ModuleName, const std::string& ExportName)
 {
     using namespace Hades;
     using namespace std;
@@ -218,15 +228,9 @@ DWORD CallExport(DWORD ProcId, const std::string& ModuleName, const std::string&
     // Open the process so we can create the remote string
     EnsureCloseHandle Proc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, ProcId);
 
-    // Copy the string argument over to the remote process
-    size_t StrNumBytes = wcslen(ExportArgument) * sizeof(wchar_t);
-    LPVOID RemoteString = (LPVOID)VirtualAllocEx(Proc, NULL, StrNumBytes,
-        MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
-    WriteProcessMemory(Proc, RemoteString, ExportArgument, StrNumBytes, NULL);
-
     // Create a remote thread that calls the desired export
     EnsureCloseHandle Thread = CreateRemoteThread(TargetProcess, NULL, NULL,
-        (LPTHREAD_START_ROUTINE)pfnThreadRtn, RemoteString, NULL, NULL);
+        (LPTHREAD_START_ROUTINE)pfnThreadRtn, NULL, NULL, NULL);
     if (!Thread)
     {
         cout << "CallExport: Could not create thread in remote process." << endl;
