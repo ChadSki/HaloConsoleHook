@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stdafx.h"
-#include <Windows.h>
 
 /**
  * Displays the pid of the current process.
