@@ -1,11 +1,4 @@
-#include <Windows.h>
-#include <iostream>
-#include <TlHelp32.h>
-#include <stdlib.h>
-#include <string>
-
-#include "Injection.h"
-#include "HCommonEnsureCleanup.h"
+#include "stdafx.h"
 
 DWORD GetProcessIdByName(const char * name)
 {

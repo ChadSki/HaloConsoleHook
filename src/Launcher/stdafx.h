@@ -3,10 +3,13 @@
 // Including SDKDDKVer.h defines the highest available Windows platform.
 #include <SDKDDKVer.h>
 
-#include <vector>
-
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 
-#include "dllmain.h"
-#include "Bootstrapper.h"
+#include <iostream>
+#include <TlHelp32.h>
+#include <stdlib.h>
+#include <string>
+
+#include "HCommonEnsureCleanup.hpp"
+#include "Injection.hpp"

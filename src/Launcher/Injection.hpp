@@ -1,7 +1,6 @@
-#include <Windows.h>
-#include <iostream>
-#include <TlHelp32.h>
-#include <stdlib.h>
+#pragma once
+
+#include "stdafx.h"
 
 /* Given a cstring, returns the pid of a running executable, or NULL if the
  * executable was not found. In the case of multiple executables, returns

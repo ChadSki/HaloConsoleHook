@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="HCommonEnsureCleanup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Injection.h">
+    <ClInclude Include="Injection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HCommonEnsureCleanup.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

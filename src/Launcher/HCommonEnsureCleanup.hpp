@@ -1,11 +1,8 @@
 // Source code courtesy of http://www.gamedeception.net/forums/184-Windows-Internals
 
 #pragma once
-#ifndef HCOMMON__ENSURECLEANUP_H
-#define HCOMMON__ENSURECLEANUP_H
 
-// Windows API
-#include <Windows.h>
+#include "stdafx.h"
 
 // Hades namespace
 namespace Hades
@@ -228,4 +225,3 @@ namespace Hades
     };
 }
 
-#endif // HCOMMON__ENSURECLEANUP_H

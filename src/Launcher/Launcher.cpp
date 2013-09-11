@@ -1,10 +1,4 @@
-#include <Windows.h>
-#include <iostream>
-#include <TlHelp32.h>
-#include <stdlib.h>
-#include <string>
-
-#include "Injection.h"
+#include "stdafx.h"
 
 using namespace std;
 
@@ -27,7 +21,6 @@ using namespace std;
  * common point.
  */
 void true_main() {
-    // Bootstrapper
     char DllName[MAX_PATH];
     GetCurrentDirectoryA(MAX_PATH, DllName);
     strcat_s(DllName, "\\Bootstrapper.dll");
@@ -39,7 +32,7 @@ void true_main() {
 /* By starting as a Windows application but not displaying any
  * windows, we can become effectively invisible.
  */
-#pragma warning(suppress: 28251) // Honeybadger don't care about SAL notation
+#pragma warning(suppress: 28251) // We don't care about SAL notation
 int __stdcall WinMain (HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPSTR lpCmdLine,
@@ -49,7 +42,7 @@ int __stdcall WinMain (HINSTANCE hInstance,
     return 0;
 }
 
-/* In any case, it's useful to have a console window visible
+/* Alternatively, you may find it useful to have a console window visible
  * for debugging purposes.  Use cout to your heart's content!
  */
 int main()
