@@ -62,7 +62,6 @@ std::vector<DWORD> FindSignature(LPBYTE lpBuffer, DWORD dwBufferSize, LPBYTE lpS
 			if (i + j >= dwBufferSize)
 			{
 				bFound = false;
-
 				break;
 			}
 
@@ -73,7 +72,6 @@ std::vector<DWORD> FindSignature(LPBYTE lpBuffer, DWORD dwBufferSize, LPBYTE lpS
 				if (lpBuffer[i + j] != lpSignature[j] && !lpWildCards[j])
 				{
 					bFound = false;
-
 					break;
 				}
 			}
@@ -83,7 +81,6 @@ std::vector<DWORD> FindSignature(LPBYTE lpBuffer, DWORD dwBufferSize, LPBYTE lpS
 				if (lpBuffer[i + j] != lpSignature[j])
 				{
 					bFound = false;
-
 					break;
 				}
 			}
@@ -124,7 +121,8 @@ UINT16* histBuffLen;
 /* Ensures that your custom command is added to the console's history (up/down arrows)
  * should the user want to use it again without retyping.
  */
-void bufferCommand(char* input) {
+void bufferCommand(char* input)
+{
     // Command buffer is a fixed array, 8*255 bytes
     *histBuffLen = (*histBuffLen + 1) % 8;
     char *location = (*histBuffLen * 255) + histBuff;
@@ -135,7 +133,8 @@ void bufferCommand(char* input) {
  * If the command matches one of HAC's, handle it and alter the command
  * buffer to prevent Halo from displaying a 'command not found' error.
  */
-void ConsoleRead(char* input) {
+void ConsoleRead(char* input)
+{
     // set to true if handled a command, otherwise leave false to pass through to Halo
     bool processed = false;
 
@@ -152,7 +151,8 @@ void ConsoleRead(char* input) {
 // Code Caves
 //
 
-void _declspec(naked) ConsoleReadCC() {
+void _declspec(naked) ConsoleReadCC()
+{
     __asm {
 
         pushfd
@@ -168,7 +168,7 @@ void _declspec(naked) ConsoleReadCC() {
         //Original
         mov al, [edi]
         sub esp, 0x00000500
-        jmp ProcessCommands // Where should this go?
+        jmp ConsoleRead // Where should this go?
     }
 }
 

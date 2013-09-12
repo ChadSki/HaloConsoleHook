@@ -16,10 +16,9 @@ DWORD GetProcessIdByName(const char * name)
         while(Process32Next(snapshot, &entry) == TRUE)
         {
             wcstombs_s(&charsConverted, buf, entry.szExeFile, MAX_PATH);
+
             if(_stricmp(buf, name) == 0)
-            {
                 return entry.th32ProcessID;
-            }
         }
     }
     return NULL;

@@ -8,7 +8,6 @@
 namespace Hades
 {
     // Data type representing the address of the object's cleanup function.
-    // I used UINT_PTR so that this class works properly in 64-bit Windows.
     typedef VOID (WINAPI* PFNENSURECLEANUP)(UINT_PTR);
 
     // Each template instantiation requires a data type, address of cleanup 
@@ -224,4 +223,3 @@ namespace Hades
         BOOL m_Success;
     };
 }
-

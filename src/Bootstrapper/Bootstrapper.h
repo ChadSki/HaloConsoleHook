@@ -1,7 +1,5 @@
 #pragma once
 #include "stdafx.h"
-#include <metahost.h>
-#pragma comment(lib, "mscoree.lib")
 
 // For exporting functions without name-mangling
 #define DllExport extern "C" __declspec( dllexport )
